@@ -1,25 +1,42 @@
-var profileDataArgs = process.argv.slice(2, process.argv.length);
+// Practicing Node and using => to create functions -----------------------------------------
 
-const animalArray = ["dog", "cat", "pig"];
+// var profileDataArgs = process.argv.slice(2, process.argv.length);
 
-animalArray.push("cow");
+// const animalArray = ["dog", "cat", "pig"];
 
-const personObj = {
-  name: "Lernantino",
-  age: 99,
-};
+// animalArray.push("cow");
 
-personObj.age = 100;
-personObj.occupation = "Developer";
+// const personObj = {
+//   name: "Lernantino",
+//   age: 99,
+// };
 
-const printProfileData = (profileDataArr) => {
-  for (let i = 0; i < profileDataArr.length; i += 1) {
-    console.log(profileDataArr[i]);
-  }
+// personObj.age = 100;
+// personObj.occupation = "Developer";
 
-  console.log("=============");
+// const printProfileData = (profileDataArr) => {
+//   for (let i = 0; i < profileDataArr.length; i += 1) {
+//     console.log(profileDataArr[i]);
+//   }
 
-  profileDataArr.forEach((profileItem) => console.log(profileItem));
-};
+//   console.log("=============");
 
-printProfileData(profileDataArgs);
+//   profileDataArr.forEach((profileItem) => console.log(profileItem));
+// };
+
+// printProfileData(profileDataArgs);
+
+// Generate HTML in Node ----------------------------------------------------------
+const fs = require(`fs`);
+
+const generatePage = require("./src/page-template.js");
+
+const profileDataArgs = process.argv.slice(2);
+
+const [name, github] = profileDataArgs;
+
+fs.writeFile("./index.html", generatePage(name, github), (err) => {
+  if (err) throw new Error(err);
+
+  console.log("Portfolio complete! Check out index.html to see the output!");
+});
