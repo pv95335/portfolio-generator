@@ -2,39 +2,11 @@
 
 // var profileDataArgs = process.argv.slice(2, process.argv.length);
 
-// const animalArray = ["dog", "cat", "pig"];
-
-// animalArray.push("cow");
-
-// const personObj = {
-//   name: "Lernantino",
-//   age: 99,
-// };
-
-// personObj.age = 100;
-// personObj.occupation = "Developer";
-
-// const printProfileData = (profileDataArr) => {
-//   for (let i = 0; i < profileDataArr.length; i += 1) {
-//     console.log(profileDataArr[i]);
-//   }
-
-//   console.log("=============");
-
-//   profileDataArr.forEach((profileItem) => console.log(profileItem));
-// };
-
-// printProfileData(profileDataArgs);
-
 // Generate HTML in Node ----------------------------------------------------------
 
-const fs = require(`fs`);
+const { writeFile, copyFile } = require("./dist/utils/generate-site.js");
 
 const generatePage = require("./src/page-template.js");
-
-// const profileDataArgs = process.argv.slice(2);
-
-//const [name, github] = profileDataArgs;
 
 const inquirer = require("inquirer");
 
@@ -175,13 +147,18 @@ Add A New Project
 promptUser()
   .then(promptProject)
   .then((portfolioData) => {
-    const pageHTML = generatePage(portfolioData);
-
-    fs.writeFile("./index.html", generatePage(portfolioData), (err) => {
-      if (err) throw new Error(err);
-
-      console.log(
-        "Portfolio complete! Check out index.html to see the output!"
-      );
-    });
+    return generatePage(portfolioData);
+  })
+  .then((pageHTML) => {
+    return writeFile(pageHTML);
+  })
+  .then((writeFileResponse) => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then((copyFileResponse) => {
+    console.log(copyFileResponse);
+  })
+  .catch((err) => {
+    console.log(err);
   });
